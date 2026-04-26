@@ -2,7 +2,7 @@
 
 This project focuses on analyzing sales data for EmporiUm, a student bookstore chain that offers a wide range of products including books, technology, and a supplies through in-store and online channels. The purpose of the analysis is to better understand sales performance across different regions and sales territories, helping the business make better decisions based on data.
 
-Inn this project, i will be using the following tools;
+In this project, i will be using the following tools;
 MY SQL,
 Excel,
 GitHub and
