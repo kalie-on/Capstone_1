@@ -29,7 +29,7 @@ MAX(ss.Transaction_Date) AS End_Date
 FROM Store_Sales ss
 JOIN Store_Locations sl
 ON ss.Store_ID = sl.Store_Id
-JOIN Management AS m
+JOIN Management m
 ON sl.State = m.State
 WHERE m.SalesManager = 'Jim Heck'
 GROUP BY m.SalesManager, m.State, m.Region;
