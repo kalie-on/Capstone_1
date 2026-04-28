@@ -7,11 +7,20 @@ USE sample_sales;
 -- q4
 -- Confirming jim heck sale territory
 
+-- Interpretation
+-- This query checks the management table to confirm which state and region are assigned to Sales Manager Jim Heck. 
+-- It filters the records where the SalesManager is Jim Heck
+
 SELECT SalesManager, Region, State
 FROM  management
 WHERE SalesManager = 'Jim Heck';
  
--- ∗ What is total revenue overall for sales in the assigned territory, plus the start date and end date that tell you what period the data covers?
+-- ∗ What is total revenue overall for sales in the assigned territory, plus the start date and end date that tell you what period the data covers? 
+
+-- Interpretation
+-- Interpretatio This query calculates the total in-store revenue for Jim Heck’s territory.
+-- It joins sales, store locations, and management tables so the sales can be connected to Colorado using the salemanager.
+-- It also finds the earliest and latest transaction dates to show the time period covered by the sales.
 
 SELECT m.SalesManager, m.State AS Territory, m.Region,
 SUM(ss.Sale_Amount) AS Total_Revenue,
@@ -19,7 +28,7 @@ MIN(ss.Transaction_Date) AS Start_Date,
 MAX(ss.Transaction_Date) AS End_Date
 FROM Store_Sales ss
 JOIN Store_Locations sl
-ON ss.Store_ID = sl.StoreId
+ON ss.Store_ID = sl.Store_Id
 JOIN Management AS m
 ON sl.State = m.State
 WHERE m.SalesManager = 'Jim Heck'
@@ -30,12 +39,17 @@ GROUP BY m.SalesManager, m.State, m.Region;
 
 -- ∗ What is the month by month revenue breakdown for the sales territory?
 
+-- Interpretation
+-- This query groups Jim Heck Colorado sales by month.
+-- It uses DATE_FORMAT to change each transaction date into a year-month format, 
+-- then calculates the total revenue for each month.
+
 SELECT m.SalesManager, m.State AS Territory,
     DATE_FORMAT(ss.Transaction_Date, '%Y-%m') AS Sales_Month,
     SUM(ss.Sale_Amount) AS Monthly_Revenue
 FROM Store_Sales ss
 JOIN Store_Locations sl
-    ON ss.Store_ID = sl.StoreId
+    ON ss.Store_ID = sl.Store_Id
 JOIN Management m
     ON sl.State = m.State
 WHERE m.SalesManager = 'Jim Heck'
@@ -45,6 +59,13 @@ ORDER BY Sales_Month;
 
 -- ∗ Provide a comparison of total revenue for the specific sales territory and the region it belongs to
 -- west revenue Instore
+
+-- Interpretation
+-- The first query calculates total in-store revenue for the entire West region.
+-- The second query calculates online revenue from Colorado.
+-- The third query calculates total in-store revenue only for Jim Heck’s Colorado territory.
+-- Together, these queries help compare Jim Heck territory revenue agains the West region and Colorado online sales.
+
 SELECT SUM(s.Sale_Amount) AS Total_Revenue
 FROM Store_Sales s
 JOIN Store_Locations l
@@ -72,6 +93,11 @@ WHERE m.SalesManager = 'Jim Heck';
 
 -- ∗ What is the number of transactions per month and average transaction size by product category for the sales territory
 
+-- Interpretation
+-- This query shows how each product category performed each month in territory.
+-- It counts the number of transactions, calculates the average sale amount, 
+-- calculates total revenue for each category by month.
+
 SELECT DATE_FORMAT(s.Transaction_Date, '%Y-%m') AS Sales_Month, c.Category,
     COUNT(*) AS Number_Of_Transactions,
     AVG(s.Sale_Amount) AS Average_Transaction_Size,
@@ -95,6 +121,10 @@ ORDER BY Sales_Month, Total_Revenue DESC;
 
 -- Can you provide a ranking of in-store sales performance by each store in the sales territory, or a ranking of online sales performance by state within an online sales territory
 
+-- It counts transactions, sums total sales, and uses the RANK() function to show which store performed best.
+-- Only for stores managed by Jimm Heck 
+
+
 SELECT l.Store_Id, l.StoreLocation, l.State,
     COUNT(*) AS Number_Of_Transactions,
     SUM(s.Sale_Amount) AS Total_Revenue,
@@ -108,7 +138,7 @@ WHERE m.SalesManager = 'Jim Heck'
 GROUP BY l.Store_Id, l.StoreLocation, l.State
 ORDER BY Store_Revenue_Rank;
 
--- Online Ranking
+-- Online Ranking for colorado
 
 SELECT ShiptoState,
 SUM(SalesTotal) AS Total_Revenue
