@@ -1,8 +1,6 @@
 # Capstone_1_Analysing_EmporiUm_Sale_Data
-# Region West
-# Territory Colorado
-# Manager Jim Heck
-# Student Ndifon Caleb
+# West region, Colorado Territory
+# Manager Jim Heck Student Ndifon Caleb
 
 This project focuses on analyzing sales data for EmporiUm, a student bookstore chain that offers a wide range of products including books, technology, and a supplies through in-store and online channels. The purpose of the analysis is to better understand sales performance across different regions and sales territories, helping the business make better decisions based on data.
 
